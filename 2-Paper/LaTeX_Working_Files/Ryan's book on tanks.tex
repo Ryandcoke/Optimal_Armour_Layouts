@@ -1,0 +1,206 @@
+\documentclass[]{article}
+
+%Preamble
+\title{Optimal Armour Layouts}
+\author{Ryan Quan}
+
+\usepackage[margin=1.25in]{geometry}
+\usepackage{gensymb}
+\usepackage{setspace}
+\usepackage{amsmath}
+\usepackage{mathtools}
+
+\pretolerance=10000
+\tolerance=2000 
+\emergencystretch=10pt
+
+\usepackage{etoolbox}
+\AtBeginEnvironment{quote}{\singlespacing\small}
+
+\begin{document}
+
+\begin{titlepage}
+	\begin{center}
+		\vspace*{4cm}
+		
+		\Huge
+		\textbf{Thesis Title}
+		
+		\vspace{0.5cm}
+		\LARGE
+		Thesis Subtitle
+		
+		\vspace{1.5cm}
+		
+		\textbf{Author Name}
+		
+		\vfill
+		
+		A thesis presented for the degree of\\
+		Doctor of Philosophy
+		
+		\vspace{0.8cm}
+		
+		\includegraphics[width=0.4\textwidth]{university}
+		
+		\Large
+		Department Name\\
+		University Name\\
+		Country\\
+		Date
+		
+	\end{center}
+\end{titlepage}
+
+
+\maketitle
+
+\begin{abstract}
+	Using a model to estimate the protection provided by rolled homogeneous armour, this analysis solves for the lowest weight configuration of armour required to resist perforation by World War II era projectiles, against 99\% of hits. This analysis contemplates two choice variables: armour thickness and armour slope angle. The optimal slope angle depends on the projectile. Of the sample of projectiles contemplated, the mode optimal slope angle is 62\degree\ from vertical against full-bore projectiles and 78\degree\ from vertical against sub-caliber kinetic energy perpetrators.
+	
+\end{abstract}
+
+\section{Introduction}
+How do you provide the most armour protection at the lowest weight?
+
+In a simplistic case, a flat-faced armour plate\footnote{In this analysis, all armour is considered to be rolled homogeneous armour that is high-quality, meaning it is free of metallurgical flaws, with a Brinell hardness of approximately 240 BHN, and a density of approximately $7840 kg/m^3$. This approximates high-quality, late-war US production armour plate, but is generic enough that it can be representative of  late-war production.} has two characteristics: thickness, and slope angle--the angle that the flat plate is inclined back from vertical, where 0\degree\ slope is perfectly vertical and 90\degree\ slope is perfectly horizontal.
+
+In geometry, it is understood that the area of a polygon, or the volume of a polytope is invariant under shear transformations of the polytope’s vertices. This implies that a rectangle with base $b$ and height $h$ can be sheared into a parallelogram with base $b$ and height $h$, with any degree of slope angle $A$ between 0\degree\ and $<90\degree$, and the area of the shape will be unchanged.
+\\\\
+*Trivial figure*
+\\\\
+Re-imagine the above polygons as cross-sections of armour plates. Call the base of the polygons the Line-of-Sight (LOS) thickness. It is obvious that holding LOS thickness, height, and area constant, a continuum of shapes exist with slope angle $A$ ranging from 0\degree\ to $<90\degree$.
+
+Call the length of a line through the polygon, perpendicular to the strike face of the armour, the nominal thickness of the armour. In the above shapes, it is obvious that the greater the slope angle, the thinner the nominal thickness of the armour plate.
+
+Because the area of a polygon is invariant under shear transformations, it follows that the mass of an armour plate, is also invariant to shear transformations because mass is simply area multiplied by scalar values, the width of the plate, and density of the plate. Therefore, minimizing the LOS thickness of an armour plate is the same as minimizing the weight of an armour plate.
+
+Return to our central question: How do you provide the most armour protection at the lowest weight? The answer to this question can be framed as the solution to a constrained optimization problem:
+\\
+\begin{quote}
+When contemplating a number of projectile threats, what is the minimum LOS thickness of armour, that can be sloped at some angle, such that the armour plate adequately resists perforation by all projectiles being contemplated?\\
+\end{quote}
+
+\noindent There is penetration data available for many WW2 projectiles, which describe how many millimeters of rolled homogeneous armour (RHA) projectiles will penetrate. Unfortunately, the answer to our question is not as simple as reading the penetration value of the most powerful threat being considered and concluding that that is the minimum required LOS thickness of armour. This is for a number of reasons:
+
+\begin{enumerate}
+	\item Normalized penetration data describes the mm of RHA sloped at 0\degree\ that a projectile can penetrate, at a certain range--these are penetration values. A projectile’s penetration value is a function of the projectile’s impact angle. The relationship between penetration and impact angle can be nonlinear.
+	
+	The degree of non-linearity of this relationship varies greatly, and depends on projectile type. Full-bore and sub-caliber projectiles’ penetration are a function of impact angle, and thus armour slope. High-explosive anti-tank projectiles generally exhibit the same line-of-sight penetration against armour, regardless of slope. 
+	
+	\item A projectile’s penetration can be a function of the thickness/diameter ratio (T/D ratio), where thickness is the nominal thickness of the armour and diameter is the diameter of the projectile. The relationship between penetration value and T/D can be nonlinear.
+	
+	The degree of non-linearity of this relationship varies greatly, and depends on projectile type. Full-bore projectiles are influenced by T/D ratio, whereas sub-caliber and HEAT projectiles seemingly are not.
+\end{enumerate}
+
+\noindent As a result of these non-linearities, sloped armour can provide far greater effective armour resistance than is implied by the armour’s LOS thickness.
+
+\section{Literature}
+
+\subsection{Rexford Bird and Livingston's Model for Estimating Effective Armour Resistance}
+Effective armour resistance describes the equivalent protection, measured in millimeters of RHA at 0\degree, that an armour plate will provide. Effective armour resistance can be estimated as follows:
+\\\\
+Where:
+\begin{align*}
+T &= Nominal\:Armour\:Thickness\\
+A &= Angle,\:in\:degrees,\:between\:the\:normal\:vector\:and\:the\:projectile's\:vector\\
+D &= Projectile\:Diameter
+\end{align*}
+\\\\
+\noindent $A$ is the same as armour slope angle if armour is impacted by a horizontally flying projectile, and the impact has no lateral angle. A projectile's decent angle, uneven terrain and a target not being square to the projectiles would cause A to differ from the armour's slope angle. \\
+
+\noindent \textbf{Against APCBC and APC projectiles}
+\\\\
+Effective armour resistance = $T*F*(T/D)^G$
+
+\[
+where
+\begin{cases}
+
+F=2.71828^{0.0000408*A^{2.5}}\:\:\:\:and\:\:G=0.0101*2.71828^{0.1313*A^{0.8}} & \text{if \:\:$0\degree \leq A\leq55\degree$} \\
+F=-3.434+0.10856*A\:\:and\:\:G=0.2174 + 0.00046*A & \text{if $55\degree<A\leq60\degree$} \\
+F=0.00000518*A^{3.25}\:\:\:\:\:\:\:\:and\:\:G=0.00002123*A^{2.295} & \text{if $60\degree<A\leq70\degree$} \\
+F=0.0678*1.0634^A\:\:\:\:\:\:\:\:\:\:\:\:and\:\:G=0.1017*1.0178^A & \text{if $70\degree<A\leq85\degree$}
+
+\end{cases}
+\]
+\\\\
+\noindent \textbf{Against AP projectiles}
+\\\\
+Effective armour resistance = $T*F*(T/D)^G$
+
+\[
+where
+\begin{cases}
+
+F=2.71828^{0.0000408*A^{2.5}}\:\:\:\:and\:\:G=0.0101*2.71828^{0.1313*A^{0.8}} & \text{if \:\:$0\degree \leq A\leq55\degree$} \\
+F=-3.434+0.10856*A\:\:and\:\:G=0.2174 + 0.00046*A & \text{if $55\degree<A\leq60\degree$} \\
+F=0.00000518*A^{3.25}\:\:\:\:\:\:\:\:and\:\:G=0.00002123*A^{2.295} & \text{if $60\degree<A\leq70\degree$} \\
+F=0.0678*1.0634^A\:\:\:\:\:\:\:\:\:\:\:\:and\:\:G=0.1017*1.0178^A & \text{if $70\degree<A\leq85\degree$}
+
+\end{cases}
+\]
+\\\\
+\noindent \textbf{Against Soviet APBC projectiles}
+\\\\
+Effective armour resistance = $T*F*(T/D)^G$
+
+\[
+where
+\begin{cases}
+
+F=2.71828^{0.0000408*A^{2.5}}\:\:\:\:and\:\:G=0.0101*2.71828^{0.1313*A^{0.8}} & \text{if \:\:$0\degree \leq A\leq55\degree$} \\
+F=-3.434+0.10856*A\:\:and\:\:G=0.2174 + 0.00046*A & \text{if $55\degree<A\leq60\degree$} \\
+F=0.00000518*A^{3.25}\:\:\:\:\:\:\:\:and\:\:G=0.00002123*A^{2.295} & \text{if $60\degree<A\leq70\degree$} \\
+F=0.0678*1.0634^A\:\:\:\:\:\:\:\:\:\:\:\:and\:\:G=0.1017*1.0178^A & \text{if $70\degree<A\leq85\degree$}
+
+\end{cases}
+\]
+\\\\
+\noindent \textbf{Against 17-Pounder APDS projectiles}
+\\\\
+\noindent \textbf{Against 50 mm to 76 mm HVAP or APCR projectiles}
+\\\\
+\noindent \textbf{Against 88 mm to 90 mm HVAP or APCR projectiles}
+
+
+
+
+
+\section{Solving for Optimal Armour Layouts}
+\subsection{Definitions}
+\noindent An \textbf{armour layout is optimal} if it is the lowest weight layout that can adequately resist perforation by all projectile threats being contemplated.
+\\
+
+\noindent Armour can \textbf{adequately resist perforation} by a projectile if the armour can defeat 99\% of hits at a given velocity or range.
+
+Most penetration data describes the thickness of armour that a projectile can defeat 50\% of the time. Actual penetration values vary from shot to shot. Rexford Bird and Livingston cite US test data that suggest shot-to-shot penetration values are normally distributed with a standard deviation of apporximately 4\%. In order for armour to defeat 99\% of hits, its effective resistance must be approximately 10\% higher than the penetration value of the projectile. This is equivalent to saying the penetration/effective armour resistance ratio must be 0.91 or less.
+\\
+
+\noindent An \textbf{armour layout is efficient} if it is not possible to rearrange the same mass of armour to provide more resistance against one threat, without decreasing the resistance against another threat.
+
+An optimal armour layout will be an efficient armour layout, but not all efficient armour layouts are optimal.
+
+\subsection{Methods}
+Using the Rexford Bird and Livingston’s equations, one can estimate the effective armour resistance of $X$ mm of LOS armour at a slope angle of $A$ degrees against AP, APCBC, APBC, APDS, HVAP, and HEAT projectiles. Here, AP, APCBC and APBC, are vectors of projectile with the diameters of \{40, 45, 47. 50, 67, 75, 76.2, 85, 88, 90, 100, 122, 128\} millimeters; this is because penetration of these projectiles are a function of T/D ratio.
+\\
+
+\noindent One can repeat this exercise for all combinations of $X$ and $A$ where:
+
+\begin{align*}
+X &= \{1\:mm, 2\:mm,\: \dots \:, 200\:mm\} \\
+A &= \{0\degree, 1\degree,\: \dots \:, 89\degree \}
+\end{align*}
+
+\noindent Decide upon a list of projectiles to contemplate. Decide upon a range--this analysis contemplates projectiles fired at a range of 500 m; this is likely the approximate average distance of tank engagements during WW2.
+
+Using Rexford Bird and Livingston’s penetration data, in this case the values for 500 m range, calculate the penetration/effective armour resistance ratio for each projectile against an armour plate of LOS thickness $X$ and slope angle $A$. 
+
+Search for the minimum LOS thickness $X$* for which there is some angle(s) $A$* such that all projectiles have a penetration/effective armour resistance ratio of 0.91 or less. Recall that a penetration/effective armour resistance ratio of 1 implies the armour will defeat the projectile 50\% of the time. The stricter requirement of the ratio being 0.91 or less results in armour that defeats the projectile 99\% of the time.
+\\
+
+\noindent An armour plate with LOS thickness $X$*, slope angle $A$*, which would have a nominal thickness of $X$*$\cdot\cos$($A$*) is optimal.
+
+\section{Examples of Optimal Armour Layouts}
+
+\end{document}
